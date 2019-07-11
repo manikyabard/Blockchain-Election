@@ -16,7 +16,7 @@
 ### Rules
     The election process can be initiated by the Election Commision only.
     
-    The voters can vote for their favourite candidate after going through an identification process at the poll booth to ensure that no one else can vote for another.
+    The voters can vote for their favourite candidate after going through an identification process at the poll booth to ensure that no one else can vote for another and selling of votes is not possible.
 
     A person can only vote once and only for themselves.
 
