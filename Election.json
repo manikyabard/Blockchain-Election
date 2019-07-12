@@ -1,0 +1,77 @@
+{
+    "ApplicationName": "Election",
+    "DisplayName": "Election",
+    "Description": "Allows voters to vote securely for the candidate of their choice.",
+    "ApplicationRoles": [
+      {
+        "Name": "Election Commission",
+        "Description": "Organisation which administers the election process."
+      },
+      {
+        "Name": "Voter",
+        "Description": "User who can vote."
+      }
+    ],
+    "Workflows": [
+      {
+        "Name": "VotingPeriod",
+        "DisplayName": "Voting Period",
+        "Description": "Handles the voting process",
+        "Initiators": [ "Election Commission" ],
+        "StartState":  "Voting",
+        "Properties": [
+          {
+            "Name": "State",
+            "DisplayName": "State",
+            "Description": "Holds the state of the contract",
+            "Type": {
+              "Name": "state"
+            }
+          }
+        ],
+        "Constructor": {
+          "Parameters": []
+        },
+        "Functions": [
+          {
+            "Name": "addCandidate",
+            "DisplayName": "Add Candidate",
+            "Description": "Add a Candidate contesting for the Election",
+            "Parameters": [
+              {
+                "Name": "_name",
+                "Description": "Name of the Candidate",
+                "DisplayName": "Name",
+                "Type": {
+                  "Name": "string"
+                }
+              }
+            ]
+          },
+          {
+            "Name": "vote",
+            "DisplayName": "Vote",
+            "Description": "Vote for a particular candidate",
+            "Parameters": [{
+                "Name": "_candidateId",
+                "Description": "Id of the Candidate",
+                "DisplayName": "Candidate ID",
+                "Type": {
+                  "Name": "int"
+                }
+              }
+            ]
+          }
+        ],
+        "States": [
+          {
+            "Name": "Voting",
+            "DisplayName": "Voting",
+            "Description": "Voting allowed",
+            "PercentComplete": 70,
+            "Style": "Success"
+          }
+        ]
+      }
+    ]
+  }
