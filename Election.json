@@ -4,7 +4,7 @@
     "Description": "Allows voters to vote securely for the candidate of their choice.",
     "ApplicationRoles": [
       {
-        "Name": "Election Commission",
+        "Name": "ElectionCommission",
         "Description": "Organisation which administers the election process."
       },
       {
@@ -14,10 +14,10 @@
     ],
     "Workflows": [
       {
-        "Name": "VotingPeriod",
-        "DisplayName": "Voting Period",
-        "Description": "Handles the voting process",
-        "Initiators": [ "Election Commission" ],
+        "Name": "Election",
+        "DisplayName": "Election",
+        "Description": "Handles the Voting process",
+        "Initiators": [ "ElectionCommission" ],
         "StartState":  "Voting",
         "Properties": [
           {
@@ -26,6 +26,34 @@
             "Description": "Holds the state of the contract",
             "Type": {
               "Name": "state"
+            }
+          },
+          {
+            "Name": "candidatesCount",
+            "DisplayName": "Candidates Count",
+            "Type": {
+              "Name": "int"
+            }
+          },
+          {
+            "Name": "winner",
+            "DisplayName": "Winner",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "_name",
+            "DisplayName": "Candidate name",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "_candidateId",
+            "DisplayName": "Candidate ID",
+            "Type": {
+              "Name": "int"
             }
           }
         ],
@@ -61,6 +89,12 @@
                 }
               }
             ]
+          },
+          {
+            "Name": "res_calc",
+            "DisplayName": "Calculate Results",
+            "Description": "Shows who won the election",
+            "Parameters": []
           }
         ],
         "States": [
@@ -68,10 +102,24 @@
             "Name": "Voting",
             "DisplayName": "Voting",
             "Description": "Voting allowed",
-            "PercentComplete": 70,
-            "Style": "Success"
+            "PercentComplete": 40,
+            "Style": "Success",
+            "Transitions": [{
+              "AllowedRoles": ["ElectionCommission"],
+              "DisplayName": "Results",
+              "Function": "res_calc",
+              "NextStates": ["Result"]
+            }]
+          },
+          {
+            "Name": "Result",
+            "DisplayName": "Results",
+            "Description": "See the Results",
+            "PercentComplete": 100,
+            "Style": "Success",
+            "Transitions": []
           }
         ]
       }
-    ]
+    ]   
   }
