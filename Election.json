@@ -18,7 +18,7 @@
         "DisplayName": "Election",
         "Description": "Handles the Voting process",
         "Initiators": [ "ElectionCommission" ],
-        "StartState":  "Voting",
+        "StartState":  "Setup",
         "Properties": [
           {
             "Name": "State",
@@ -29,45 +29,75 @@
             }
           },
           {
-            "Name": "candidatesCount",
+            "Name": "ElectionCommission",
+            "DisplayName": "Election Commission",
+            "Description": "...",
+            "Type": {
+              "Name": "ElectionCommission"
+            }
+          },
+          {
+            "Name": "Voter",
+            "DisplayName": "Voter",
+            "Description": "...",
+            "Type": {
+              "Name": "Voter"
+            }
+          },
+          {
+            "Name": "CandidatesCount",
             "DisplayName": "Candidates Count",
             "Type": {
               "Name": "int"
             }
           },
           {
-            "Name": "winner",
-            "DisplayName": "Winner",
-            "Type": {
-              "Name": "string"
-            }
-          },
-          {
-            "Name": "_name",
+            "Name": "cname",
             "DisplayName": "Candidate name",
             "Type": {
               "Name": "string"
             }
           },
           {
-            "Name": "_candidateId",
+            "Name": "candidateId",
             "DisplayName": "Candidate ID",
             "Type": {
               "Name": "int"
             }
+          },
+          {
+            "Name": "winner",
+            "DisplayName": "Winner Of the Election",
+            "Type": {
+              "Name": "string"
+            }
+          },
+          {
+            "Name": "Title",
+            "DisplayName": "Title Of Election",
+            "Type": {
+              "Name": "string"
+            }
           }
         ],
         "Constructor": {
-          "Parameters": []
+          "Parameters": [{
+            "Name": "title",
+            "Description": "Title of the Election",
+            "DisplayName": "Title of Election",
+            "Type": {
+              "Name": "string"
+            }
+          }]
         },
         "Functions": [
           {
-            "Name": "addCandidate",
+            "Name": "AddCandidate",
             "DisplayName": "Add Candidate",
             "Description": "Add a Candidate contesting for the Election",
             "Parameters": [
               {
-                "Name": "_name",
+                "Name": "cname",
                 "Description": "Name of the Candidate",
                 "DisplayName": "Name",
                 "Type": {
@@ -81,17 +111,17 @@
             "DisplayName": "Vote",
             "Description": "Vote for a particular candidate",
             "Parameters": [{
-                "Name": "_candidateId",
+                "Name": "candidateId",
                 "Description": "Id of the Candidate",
                 "DisplayName": "Candidate ID",
                 "Type": {
                   "Name": "int"
                 }
-              }
-            ]
+              
+          }]
           },
           {
-            "Name": "res_calc",
+            "Name": "rescalc",
             "DisplayName": "Calculate Results",
             "Description": "Shows who won the election",
             "Parameters": []
@@ -99,17 +129,50 @@
         ],
         "States": [
           {
+            "Name": "Setup",
+            "DisplayName": "Setup",
+            "Description": "Setting Up Candidates",
+            "PercentComplete": 20,
+            "Style": "Success",
+            "Transitions": [
+              {
+                "AllowedRoles": ["Voter"],
+                "AllowedInstanceRoles": ["Voter"],
+                "DisplayName": "Voting Period",
+                "Function": "vote",
+                "NextStates": ["Voting"]
+              },
+              {
+                "AllowedRoles": ["ElectionCommission"],
+                "AllowedInstanceRoles": ["ElectionCommission"],
+                "DisplayName": "Add Candidates",
+                "Function": "AddCandidate",
+                "NextStates": ["Setup"]
+              }
+            ]
+          },
+          {
             "Name": "Voting",
             "DisplayName": "Voting",
-            "Description": "Voting allowed",
-            "PercentComplete": 40,
+            "Description": "Vote for your Candidate",
+            "PercentComplete": 60,
             "Style": "Success",
-            "Transitions": [{
+            "Transitions": [
+              {
               "AllowedRoles": ["ElectionCommission"],
+              "AllowedInstanceRoles": ["ElectionCommission"],
               "DisplayName": "Results",
-              "Function": "res_calc",
+              "Function": "rescalc",
               "NextStates": ["Result"]
-            }]
+            },
+            {
+              "AllowedRoles": ["Voter"],
+              "AllowedInstanceRoles": ["Voter"],
+              "DisplayName": "Vote",
+              "Function": "vote",
+              "NextStates": ["Voting"]
+            }
+          ]
           },
           {
             "Name": "Result",
