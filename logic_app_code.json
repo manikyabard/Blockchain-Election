@@ -1,0 +1,268 @@
+{
+    "$connections": {
+        "value": {
+            "azureeventgrid_1": {
+                "connectionId": "/subscriptions/d5845366-ff3c-4550-9c5c-ccf9b1ef1fb2/resourceGroups/ElectionDapp3/providers/Microsoft.Web/connections/azureeventgrid",
+                "connectionName": "azureeventgrid",
+                "id": "/subscriptions/d5845366-ff3c-4550-9c5c-ccf9b1ef1fb2/providers/Microsoft.Web/locations/centralus/managedApis/azureeventgrid"
+            },
+            "gmail": {
+                "connectionId": "/subscriptions/d5845366-ff3c-4550-9c5c-ccf9b1ef1fb2/resourceGroups/ElectionDapp3/providers/Microsoft.Web/connections/gmail",
+                "connectionName": "gmail",
+                "id": "/subscriptions/d5845366-ff3c-4550-9c5c-ccf9b1ef1fb2/providers/Microsoft.Web/locations/centralus/managedApis/gmail"
+            }
+        }
+    },
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "EventMessage": {
+                "actions": {
+                    "Parse_JSON_2": {
+                        "inputs": {
+                            "content": "@triggerBody()?['data']",
+                            "schema": {
+                                "properties": {
+                                    "AdditionalInformation": {},
+                                    "Caller": {},
+                                    "ConnectionId": {
+                                        "type": "integer"
+                                    },
+                                    "ContractId": {
+                                        "type": "integer"
+                                    },
+                                    "ContractLedgerIdentifier": {
+                                        "type": "string"
+                                    },
+                                    "EventName": {
+                                        "type": "string"
+                                    },
+                                    "FunctionName": {
+                                        "type": "string"
+                                    },
+                                    "InTransactionSequenceNumber": {
+                                        "type": "integer"
+                                    },
+                                    "MessageName": {
+                                        "type": "string"
+                                    },
+                                    "MessageSchemaVersion": {
+                                        "type": "string"
+                                    },
+                                    "Parameters": {
+                                        "items": {
+                                            "properties": {
+                                                "Name": {
+                                                    "type": "string"
+                                                },
+                                                "Value": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "Name",
+                                                "Value"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "Transaction": {
+                                        "properties": {
+                                            "From": {
+                                                "type": "string"
+                                            },
+                                            "ProvisioningStatus": {
+                                                "type": "integer"
+                                            },
+                                            "To": {
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "type": "array"
+                                            },
+                                            "TransactionHash": {
+                                                "type": "string"
+                                            },
+                                            "TransactionId": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "runAfter": {},
+                        "type": "ParseJson"
+                    },
+                    "Switch": {
+                        "cases": {
+                            "ContractFunctionInvocation": {
+                                "actions": {
+                                    "Condition": {
+                                        "actions": {
+                                            "Send_email": {
+                                                "inputs": {
+                                                    "body": {
+                                                        "Body": "Congratulations for voting successfully on the blockchain at @{triggerBody()?['eventTime']}.\nYour transaction id is @{body('Parse_JSON_2')?['Transaction']?['TransactionHash']}.",
+                                                        "Importance": "High",
+                                                        "Subject": "Congratulations on Successfully Voting 👏",
+                                                        "To": "manikyabard@gmail.com"
+                                                    },
+                                                    "host": {
+                                                        "connection": {
+                                                            "name": "@parameters('$connections')['gmail']['connectionId']"
+                                                        }
+                                                    },
+                                                    "method": "post",
+                                                    "path": "/Mail"
+                                                },
+                                                "runAfter": {},
+                                                "type": "ApiConnection"
+                                            }
+                                        },
+                                        "expression": {
+                                            "and": [
+                                                {
+                                                    "equals": [
+                                                        "@body('Parse_JSON')?['data']?['FunctionName']",
+                                                        "vote"
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "runAfter": {
+                                            "Parse_JSON": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "If"
+                                    },
+                                    "Parse_JSON": {
+                                        "inputs": {
+                                            "content": "@triggerBody()",
+                                            "schema": {
+                                                "properties": {
+                                                    "additionalInformation": {
+                                                        "properties": {},
+                                                        "type": "object"
+                                                    },
+                                                    "caller": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer"
+                                                            },
+                                                            "ledgerIdentifier": {
+                                                                "type": "string"
+                                                            },
+                                                            "type": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "connectionId": {
+                                                        "type": "integer"
+                                                    },
+                                                    "contractId": {
+                                                        "type": "integer"
+                                                    },
+                                                    "contractLedgerIdentifier": {
+                                                        "type": "string"
+                                                    },
+                                                    "eventName": {
+                                                        "type": "string"
+                                                    },
+                                                    "functionName": {
+                                                        "type": "string"
+                                                    },
+                                                    "inTransactionSequenceNumber": {
+                                                        "type": "integer"
+                                                    },
+                                                    "messageName": {
+                                                        "type": "string"
+                                                    },
+                                                    "messageSchemaVersion": {
+                                                        "type": "string"
+                                                    },
+                                                    "parameters": {}
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "runAfter": {},
+                                        "type": "ParseJson"
+                                    }
+                                },
+                                "case": "ContractFunctionInvocation"
+                            }
+                        },
+                        "default": {
+                            "actions": {}
+                        },
+                        "expression": "@body('Parse_JSON_2')?['EventName']",
+                        "runAfter": {
+                            "Parse_JSON_2": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Switch"
+                    }
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@triggerBody()?['subject']",
+                                "EventMessage"
+                            ]
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "If"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "When_a_resource_event_occurs": {
+                "inputs": {
+                    "body": {
+                        "properties": {
+                            "destination": {
+                                "endpointType": "webhook",
+                                "properties": {
+                                    "endpointUrl": "@{listCallbackUrl()}"
+                                }
+                            },
+                            "filter": {
+                                "subjectBeginsWith": "EventMessage"
+                            },
+                            "topic": "/subscriptions/d5845366-ff3c-4550-9c5c-ccf9b1ef1fb2/resourceGroups/ElectionDapp3/providers/Microsoft.EventGrid/topics/election-eg-ojwh7y"
+                        }
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azureeventgrid_1']['connectionId']"
+                        }
+                    },
+                    "path": "/subscriptions/@{encodeURIComponent('d5845366-ff3c-4550-9c5c-ccf9b1ef1fb2')}/providers/@{encodeURIComponent('Microsoft.EventGrid.Topics')}/resource/eventSubscriptions",
+                    "queries": {
+                        "x-ms-api-version": "2017-06-15-preview"
+                    }
+                },
+                "splitOn": "@triggerBody()",
+                "type": "ApiConnectionWebhook"
+            }
+        }
+    }
+}

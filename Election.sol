@@ -69,9 +69,13 @@ contract Election {
         for (int i = 0; i <= CandidatesCount; i++){
             if (candidates[i].voteCount > mx){
                 winner = candidates[i].name;
+                mx = candidates[i].voteCount;
             }
-            else winner = candidates[0].name;
         }
         State = StateType.Result;
+    }
+
+    function AllowVoting () public {
+        State = StateType.Voting;
     }
 }

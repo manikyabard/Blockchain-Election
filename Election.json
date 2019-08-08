@@ -125,6 +125,12 @@
             "DisplayName": "Calculate Results",
             "Description": "Shows who won the election",
             "Parameters": []
+          },
+          {
+            "Name": "AllowVoting",
+            "DisplayName": "Start Voting Period",
+            "Description": "Start the voting period and allow the voters to vote",
+            "Parameters": []
           }
         ],
         "States": [
@@ -136,18 +142,18 @@
             "Style": "Success",
             "Transitions": [
               {
-                "AllowedRoles": ["Voter"],
-                "AllowedInstanceRoles": ["Voter"],
-                "DisplayName": "Voting Period",
-                "Function": "vote",
-                "NextStates": ["Voting"]
-              },
-              {
                 "AllowedRoles": ["ElectionCommission"],
                 "AllowedInstanceRoles": ["ElectionCommission"],
                 "DisplayName": "Add Candidates",
                 "Function": "AddCandidate",
                 "NextStates": ["Setup"]
+              },
+              {
+                "AllowedRoles": ["ElectionCommission"],
+                "AllowedInstanceRoles": ["ElectionCommission"],
+                "DisplayName": "Start Voting Period",
+                "Function": "AllowVoting",
+                "NextStates": ["Voting"]
               }
             ]
           },
