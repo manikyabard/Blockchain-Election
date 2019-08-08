@@ -22,8 +22,11 @@
 
     At the end of the voting event, the result will be declared.
 
-### The link for the demo video-
+### The link for the demo video:
     https://youtu.be/Fsp_8WQU3fo
+    
+### Check the documentation for the project:
+    https://github.com/manikyabard/Blockchain-Election/blob/master/Blockchain_Election.pdf
     
     
 
