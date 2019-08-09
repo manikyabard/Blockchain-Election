@@ -22,8 +22,21 @@
 
     At the end of the voting event, the result will be declared.
 
-### The link for the demo video-
+### The link for the demo video:
     https://youtu.be/Fsp_8WQU3fo
+    
+### Check the documentation for the project:
+    https://github.com/manikyabard/Blockchain-Election/blob/master/Blockchain_Election.pdf
+    
+### Files present in this repo
+    Election.json - configuration file for workbench application
+    Election.sol - solidity file for workbench application
+    Logic_app_code.json - code for Azure logic app
+    Blockchain_Election.pdf - Documentation for the Project
+    People.ipynb - python script for filtering out the new voters to be added to Azure AD
+    People.csv - sample csv file containing data about all people
+    People_18.csv - filtered out csv created by the python script
+    
     
     
 
