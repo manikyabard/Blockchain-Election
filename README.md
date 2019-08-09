@@ -29,13 +29,13 @@
     https://github.com/manikyabard/Blockchain-Election/blob/master/Blockchain_Election.pdf
     
 ### Files present in this repo
-    [Election.json](https://github.com/manikyabard/Blockchain-Election/blob/master/Election.json) - configuration file for workbench application
-    [Election.sol](https://github.com/manikyabard/Blockchain-Election/blob/master/Election.sol) - solidity file for workbench application
-    [Logic_app_code.json](https://github.com/manikyabard/Blockchain-Election/blob/master/logic_app_code.json) - code for Azure logic app
-    [Blockchain_Election.pdf](https://github.com/manikyabard/Blockchain-Election/blob/master/Blockchain_Election.pdf) - Documentation for the Project
-    [People.ipynb](https://github.com/manikyabard/Blockchain-Election/blob/master/People.ipynb) - python script for filtering out the new voters to be added to Azure AD
-    [People.csv](https://github.com/manikyabard/Blockchain-Election/blob/master/People.csv) - sample csv file containing data about all people
-    [People_18.csv](https://github.com/manikyabard/Blockchain-Election/blob/master/People_18.csv) - filtered out csv created by the python script
+    Election.json - configuration file for workbench application
+    Election.sol - solidity file for workbench application
+    Logic_app_code.json - code for Azure logic app
+    Blockchain_Election.pdf - Documentation for the Project
+    People.ipynb - python script for filtering out the new voters to be added to Azure AD
+    People.csv - sample csv file containing data about all people
+    People_18.csv - filtered out csv created by the python script
     
     
     
